@@ -35,8 +35,6 @@ void add_jogo_to_usuario(Usuario* usuario, unsigned int id_item){
     usuario->colecao_count++;
 }
 
-//TO-DO: COMPRA DE JOGOS
-
 
 void create_usuarios(Usuarios* usuarios){
     usuarios->items_capacity = 100;
