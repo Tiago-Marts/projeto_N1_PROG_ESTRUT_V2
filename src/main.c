@@ -32,6 +32,24 @@ int main(void){
     Jogo *teste = busca_jogo(&base_jogos, 15);
     destroy_jogos(&base_jogos);
 
+    //Teste para usuarios
+    Usuarios usuarios;
+    create_usuarios(&usuarios);
+
+    Usuario teste_usuario;
+    teste_usuario.nome = "Usuario teste";
+    teste_usuario.id = 16;
+    create_usuario(&teste_usuario);
+
+    add_jogo_to_usuario(&teste_usuario, 15);
+    add_jogo_to_carrinho(&teste_usuario, 15);
+
+    printf("%u\n", teste_usuario.carrinho[0]);
+    printf("%llu\n", teste_usuario.carrinho_count);
+
+    remove_jogo_from_carrinho(&teste_usuario, 15);
+    printf("%llu\n", teste_usuario.carrinho_count);
+
     int opt_menu = 0;
 
     while(opt_menu != 5){

@@ -8,6 +8,9 @@ typedef struct {
     unsigned int *colecao;
     size_t colecao_capacity;
     size_t colecao_count;
+    unsigned int *carrinho;
+    size_t carrinho_capacity;
+    size_t carrinho_count;
 } Usuario;
 
 
@@ -22,6 +25,10 @@ void create_usuario(Usuario *usuario){
     usuario->colecao_capacity = 100;
     usuario->colecao_count = 0;
     usuario->colecao = malloc(usuario->colecao_capacity * sizeof(usuario->colecao));
+
+    usuario->carrinho_capacity = 3;
+    usuario->carrinho_count = 0;
+    usuario->carrinho = malloc(usuario->carrinho_capacity * sizeof(usuario->carrinho));
 }
 
 //Adiciona Jogo a Usuario
@@ -33,6 +40,40 @@ void add_jogo_to_usuario(Usuario* usuario, unsigned int id_item){
 
     usuario->colecao[usuario->colecao_count] = id_item;
     usuario->colecao_count++;
+}
+
+void add_jogo_to_carrinho(Usuario *usuario, unsigned int id_item){
+    if(usuario->carrinho_count == usuario->carrinho_capacity){
+        usuario->carrinho_capacity *= 2;
+        usuario->carrinho = realloc(usuario->carrinho, usuario->carrinho_capacity * sizeof(usuario->carrinho));
+    }
+
+    usuario->carrinho[usuario->carrinho_count] = id_item;
+    usuario->carrinho_count++;
+}
+
+//A partir do id, remove um item do carrinho
+void remove_jogo_from_carrinho(Usuario *usuario, unsigned int id_item){
+
+    //Acha o index do item a ser removido
+    size_t index = 0;
+    for(size_t i = 0; i < usuario->carrinho_count; i++){
+        if(usuario->carrinho[i] == id_item){
+            index = i;
+        }
+    }
+
+    //Realoca os itens a partir do index que foi removido
+    for(size_t i = index; i < usuario->carrinho_count - 1; i++){
+        usuario->carrinho[i] = usuario->carrinho[i+1];
+    }
+
+    unsigned int *tmp = realloc(usuario->carrinho, (usuario->carrinho_count - 1) * sizeof(usuario->carrinho));
+
+    //TO-DO: tratamento de erro para o realloc aqui
+
+    usuario->carrinho_count--;
+    usuario->carrinho = tmp;
 }
 
 
